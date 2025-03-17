@@ -4,9 +4,9 @@ import { useState, useContext, useCallback } from "react";
 import ErrorModal from "@/components/molecules/ErrorModal";
 import InputModal from "@/components/molecules/InputModal";
 import GoogleLoginModal from "@/components/molecules/GoogleLoginModal";
+import NaverLoginModal from "@/components/molecules/NaverLoginModal";
 
 import LoadingSpinner from "@/components/atoms/LoadingSpinner";
-import ButtonWithIcon from "@/components/atoms/ButtonWithIcon";
 import { FcGoogle } from "react-icons/fc";
 import { SiNaver } from "react-icons/si"; // Naver 아이콘
 import { RiKakaoTalkFill } from "react-icons/ri"; // Kakao 아이콘
@@ -28,7 +28,8 @@ const LoginForm = () => {
   const authStatus = useContext(AuthContext);
 
   const [isInputModalOpen, setInputModalOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false); // Google Modal
+  const [isGoogleModalOpen, setGoogleModal] = useState(false); // Google Modal
+  const [isNaverModalOpen, setNaverModal] = useState(false); // Naver Modal
 
   const { sendRequest } = useHttpHook();
 
@@ -99,8 +100,12 @@ const LoginForm = () => {
         setPasswordCheck={false}
       />
       <GoogleLoginModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isOpen={isGoogleModalOpen}
+        onClose={() => setGoogleModal(false)}
+      />
+      <NaverLoginModal
+        isOpen={isNaverModalOpen}
+        onClose={() => setNaverModal(false)}
       />
       <form onSubmit={handleSubmit} className="w-full space-y-2">
         <div>
@@ -139,27 +144,20 @@ const LoginForm = () => {
             className="w-20 h-20 cursor-pointer"
             onClick={() => {
               console.log("Google");
-              setIsModalOpen(true);
+              setGoogleModal(true);
             }}
           />
           <SiNaver
             className="w-20 h-20 text-green-500 cursor-pointer"
-            onClick={() => console.log("Naver")}
+            onClick={() => {
+              console.log("Naver");
+              setNaverModal(true);
+            }}
           />
           <RiKakaoTalkFill
             className="w-20 h-20 text-yellow-400 cursor-pointer"
             onClick={() => console.log("Kakao")}
           />
-          {/* <ButtonWithIcon
-            content="Naver"
-            classStyle="justify-center"
-            onClick={() => console.log("Naver")}
-          />
-          <ButtonWithIcon
-            content="kakao"
-            classStyle="justify-center"
-            onClick={() => console.log("kakao")}
-          /> */}
         </div>
         <div className="text-sm">
           <span>
@@ -186,38 +184,6 @@ const LoginForm = () => {
         </div>
       </form>
     </>
-    // <form onSubmit={handleSubmit} className="mt-8 space-y-6">
-    //   <div className="space-y-4">
-    //     <div>
-    //       <label htmlFor="email" className="sr-only">이메일</label>
-    //       <input
-    //         id="email"
-    //         name="email"
-    //         type="email"
-    //         required
-    //         className="relative block w-full px-3 py-2 text-white placeholder-gray-400 bg-gray-800 border border-gray-700 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-    //         placeholder="이메일"
-    //       />
-    //     </div>
-    //     <div>
-    //       <label htmlFor="password" className="sr-only">비밀번호</label>
-    //       <input
-    //         id="password"
-    //         name="password"
-    //         type="password"
-    //         required
-    //         className="relative block w-full px-3 py-2 text-white placeholder-gray-400 bg-gray-800 border border-gray-700 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-    //         placeholder="비밀번호"
-    //       />
-    //     </div>
-    //   </div>
-    //   <button
-    //     type="submit"
-    //     className="w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-    //   >
-    //     로그인
-    //   </button>
-    // </form>
   );
 };
 
