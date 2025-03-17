@@ -114,22 +114,21 @@ const GoogleLoginModal = ({ isOpen, onClose }) => {
 
           {/* 창 새로 띄워서 하고 싶으면면 */}
           <div
-            id="g_id_onload"
             data-client_id={import.meta.env.VITE_OAUTH_CLIENT_ID}
-            data-callback="handleCredentialResponse"
             data-auto_prompt="false"
-            data-itp_support="true"
+            data-callback="handleCredentialResponse"
+            // data-itp_support="true"
+            data-context="구글 로그인 연동"
             data-ux_mode="popup" // 추가
           />
           <div
             className="g_id_signin"
             data-type="standard"
+            data-theme="filled_blue"
             data-size="large"
-            data-theme="outline"
-            data-text="sign_in_with"
+            data-text="ontinue_with"
             data-shape="rectangular"
             data-logo_alignment="left"
-            data-context="signin" // 추가
           />
 
           <button
