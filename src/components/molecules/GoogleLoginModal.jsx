@@ -56,25 +56,61 @@ const GoogleLoginModal = ({ isOpen, onClose }) => {
     [sendRequest, onClose]
   );
 
+  // useEffect(() => {
+  //   // window 객체에 콜백 함수 등록
+  //   window.handleCredentialResponse = handleCredentialResponse;
+
+  //   // Google OAuth 스크립트 로드
+  //   const script = document.createElement("script");
+  //   script.src = "https://accounts.google.com/gsi/client";
+  //   script.async = true;
+  //   script.defer = true; // defer 추가
+  //   document.head.appendChild(script);
+
+  //   // 클린업 함수
+  //   return () => {
+  //     delete window.handleCredentialResponse;
+  //     if (script.parentNode) {
+  //       script.parentNode.removeChild(script);
+  //     }
+  //   };
+  // }, [handleCredentialResponse]); // 의존성 배열에 콜백 함수 추가
+
   useEffect(() => {
     // window 객체에 콜백 함수 등록
     window.handleCredentialResponse = handleCredentialResponse;
-
+  
     // Google OAuth 스크립트 로드
     const script = document.createElement("script");
     script.src = "https://accounts.google.com/gsi/client";
     script.async = true;
-    script.defer = true; // defer 추가
+    script.defer = true;
+    
+    script.onload = () => {
+      // 스크립트 로드 완료 후 Google 클라이언트 초기화
+      google.accounts.id.initialize({
+        client_id: import.meta.env.VITE_OAUTH_CLIENT_ID,
+        callback: handleCredentialResponse,
+        ux_mode: 'popup'
+      });
+  
+      // 버튼 렌더링
+      google.accounts.id.renderButton(
+        document.getElementById("googleSignInDiv"),
+        { theme: "filled_blue", size: "large" }
+      );
+    };
+  
     document.head.appendChild(script);
-
-    // 클린업 함수
+  
     return () => {
       delete window.handleCredentialResponse;
       if (script.parentNode) {
         script.parentNode.removeChild(script);
       }
     };
-  }, [handleCredentialResponse]); // 의존성 배열에 콜백 함수 추가
+  }, [handleCredentialResponse]);
+  
   if (!isOpen) return null;
 
   return (
@@ -97,23 +133,23 @@ const GoogleLoginModal = ({ isOpen, onClose }) => {
           {/* <div
             id="g_id_onload"
             data-client_id={import.meta.env.VITE_OAUTH_CLIENT_ID}
-            data-callback="handleCredentialResponse"
             data-auto_prompt="false"
+            data-callback="handleCredentialResponse"
             data-ux_mode="redirect" // 이 속성 추가
           />
 
           <div
             className="g_id_signin"
             data-type="standard"
-            data-size="large"
             data-theme="outline"
+            data-size="large"
             data-text="sign_in_with"
             data-shape="rectangular"
             data-logo_alignment="left"
           /> */}
 
-          {/* 창 새로 띄워서 하고 싶으면면 */}
-          <div
+          {/* 창 새로 띄워서 하고 싶으면 */}
+          {/* <div
             data-client_id={import.meta.env.VITE_OAUTH_CLIENT_ID}
             data-auto_prompt="false"
             data-callback="handleCredentialResponse"
@@ -129,7 +165,8 @@ const GoogleLoginModal = ({ isOpen, onClose }) => {
             data-text="ontinue_with"
             data-shape="rectangular"
             data-logo_alignment="left"
-          />
+          /> */}
+          <div id="googleSignInDiv"></div>
 
           <button
             onClick={onClose}
