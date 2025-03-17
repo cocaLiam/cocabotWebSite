@@ -90,7 +90,8 @@ $ npx tailwindcss -i ./src/index.css -o ./src/output.css --watch
 ### [vite + React 프로젝트] Local Test ( with local backend )
 ***npm run dev 시, .env.development 환경변수를 참조해 빌드***
 ```bash
-$ npm run dev -- --port 3000 --host
+# $ npm run dev --port 3000 --host
+$ vite --port 3000 --host
 ```
 
 ## 👉 빌드 및 서버 업데이트
@@ -109,7 +110,7 @@ ex) git commit -m "Release_v1.0 [로그인기능 추가]"
 *** build 결과물을 Local 에서 Test 하는 방법***
 ```bash
 $ npm run build
-$ npm run preview -- --port 3000 --host
+$ npm run preview --port 3000 --host
 ```
 
 ___
