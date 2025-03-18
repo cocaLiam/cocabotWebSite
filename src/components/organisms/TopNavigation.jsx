@@ -97,9 +97,9 @@ const TopNavigation = () => {
             <Link to="/MyPage" className={`${linkStyle} font-mono`}>
               마이페이지
             </Link>
-            <Link to="/PageExample" className={`${linkStyle} font-mono`}>
+            {/* <Link to="/PageExample" className={`${linkStyle} font-mono`}>
               디버깅
-            </Link>
+            </Link> */}
           </div>
         </div>
       </React.Fragment>
@@ -136,9 +136,9 @@ const TopNavigation = () => {
             <Link to="/MyPage" className={`${linkStyle} font-mono`}>
               마이페이지
             </Link>
-            <Link to="/PageExample" className={`${linkStyle} font-mono`}>
+            {/* <Link to="/PageExample" className={`${linkStyle} font-mono`}>
               디버깅
-            </Link>
+            </Link> */}
           </div>
         </div>
       </React.Fragment>

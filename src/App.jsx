@@ -25,6 +25,7 @@ import "./App.css";
 
 function App() {
   console.log("#Start APP#");
+  console.log(`Back : ${import.meta.env.VITE_BACKEND_SERVER}`);
   const authStatus = useContext(AuthContext)
 
   useEffect(() => {
