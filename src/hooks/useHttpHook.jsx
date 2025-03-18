@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useCallback, useRef, useEffect } from 'react';
 
 const BACKENDURL = import.meta.env.VITE_BACKEND_SERVER
-
+console.log(`BACKENDURL : ${BACKENDURL}`);
 const axiosInstance = axios.create({
   baseURL: BACKENDURL,  timeout: 5000,
 });
