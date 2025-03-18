@@ -2,10 +2,7 @@
 import axios from 'axios';
 import { useCallback, useRef, useEffect } from 'react';
 
-// const BACKENDURL = 'https://cocabot-backendprod-edfd59f6ff11.herokuapp.com/'
-// const BACKENDURL = 'http://192.168.45.196:5000/'
-// const BACKENDURL = 'https://backend.cocabot.com'
-const BACKENDURL = 'http://localhost:5000/'
+const BACKENDURL = import.meta.env.VITE_BACKEND_SERVER
 
 const axiosInstance = axios.create({
   baseURL: BACKENDURL,  timeout: 5000,
