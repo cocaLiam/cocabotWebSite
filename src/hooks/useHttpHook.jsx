@@ -8,8 +8,7 @@ import { useCallback, useRef, useEffect } from 'react';
 const BACKENDURL = 'http://localhost:5000/'
 
 const axiosInstance = axios.create({
-  baseURL: BACKENDURL,
-  timeout: 5000,
+  baseURL: BACKENDURL,  timeout: 5000,
 });
 
 export const useHttpHook = () => {
