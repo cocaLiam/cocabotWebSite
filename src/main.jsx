@@ -6,9 +6,9 @@ import "flowbite"; // flowbite-react가 아닌 flowbite를 import
 import { AuthProvider } from '@/context/AuthProvider.jsx';
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  // <StrictMode>
     <AuthProvider>
       <App />
     </AuthProvider>
-  </StrictMode>
+  // </StrictMode>
 );

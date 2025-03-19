@@ -127,7 +127,7 @@ const TopNavigation = () => {
             </Link>
           </div>
           <div className="flex h-full">
-            <Link to="/Login" className={`${linkStyle} font-mono`}>
+            <Link to="/login/Login" className={`${linkStyle} font-mono`}>
               로그인
             </Link>
             <Link to="/Signup" className={`${linkStyle} font-mono`}>

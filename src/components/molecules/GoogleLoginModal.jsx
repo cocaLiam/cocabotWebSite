@@ -11,7 +11,7 @@ import { AuthContext } from "@/context/AuthContext";
 
 import PropTypes from "prop-types";
 
-const GoogleLoginModal = ({ isOpen, onClose }) => {
+const GoogleLoginModal = ({ onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -22,7 +22,7 @@ const GoogleLoginModal = ({ isOpen, onClose }) => {
   const handleCredentialResponse = useCallback(
     async (response) => {
       const credential = response.credential;
-      
+
       setIsLoading(true);
       try {
         const responseData = await sendRequest({
@@ -69,7 +69,14 @@ const GoogleLoginModal = ({ isOpen, onClose }) => {
 
     window.google.accounts.id.renderButton(
       document.getElementById("googleSignInDiv"),
-      { theme: "filled_blue", size: "large" }
+      {
+        type: "standard",
+        theme: "filled_blue",
+        size: "large",
+        shape: "rectangular",
+        width: "400",
+        logo_alignment: "left",
+      }
     );
   }, [handleCredentialResponse]);
 
@@ -88,8 +95,6 @@ const GoogleLoginModal = ({ isOpen, onClose }) => {
     };
   }, [initializeGoogleLogin, loadGoogleScript]);
 
-  if (!isOpen) return null;
-
   return (
     <>
       {isLoading && <LoadingSpinner />}
@@ -104,9 +109,9 @@ const GoogleLoginModal = ({ isOpen, onClose }) => {
 
         {/* 모달 내용 */}
         <div className="z-10 p-8 bg-white rounded-lg shadow-xl">
-          <h2 className="mb-4 text-2xl font-bold text-black">구글 로그인</h2>
+          <h2 className="mb-4 text-4xl text-black">구글 로그인</h2>
 
-          <div id="googleSignInDiv"></div>
+          <div id="googleSignInDiv" className="w-96"></div>
 
           <button
             onClick={onClose}
@@ -121,7 +126,6 @@ const GoogleLoginModal = ({ isOpen, onClose }) => {
 };
 
 GoogleLoginModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 

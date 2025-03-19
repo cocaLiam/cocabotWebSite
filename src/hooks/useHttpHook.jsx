@@ -4,9 +4,6 @@ import { useCallback, useRef, useEffect } from 'react';
 
 const BACKENDURL = import.meta.env.VITE_BACKEND_SERVER
 
-console.log(`BACKENDURL 1 : ${BACKENDURL}`);
-console.log(`BACKENDURL 2 : ${import.meta.env.VITE_BACKEND_SERVER}`);
-
 const axiosInstance = axios.create({
   baseURL: BACKENDURL,  timeout: 5000,
 });

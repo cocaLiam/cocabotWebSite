@@ -5,6 +5,7 @@ import ErrorModal from "@/components/molecules/ErrorModal";
 import InputModal from "@/components/molecules/InputModal";
 import GoogleLoginModal from "@/components/molecules/GoogleLoginModal";
 import NaverLoginModal from "@/components/molecules/NaverLoginModal";
+import KakaoLoginModal from "@/components/molecules/KakaoLoginModal";
 
 import LoadingSpinner from "@/components/atoms/LoadingSpinner";
 import { FcGoogle } from "react-icons/fc";
@@ -30,6 +31,7 @@ const LoginForm = () => {
   const [isInputModalOpen, setInputModalOpen] = useState(false);
   const [isGoogleModalOpen, setGoogleModal] = useState(false); // Google Modal
   const [isNaverModalOpen, setNaverModal] = useState(false); // Naver Modal
+  const [isKakaoModalOpen, setKakaoModal] = useState(false); // Kakao Modal
 
   const { sendRequest } = useHttpHook();
 
@@ -99,14 +101,15 @@ const LoginForm = () => {
         placeHolder="help@cocabot.com"
         setPasswordCheck={false}
       />
-      <GoogleLoginModal
-        isOpen={isGoogleModalOpen}
-        onClose={() => setGoogleModal(false)}
-      />
-      <NaverLoginModal
-        isOpen={isNaverModalOpen}
-        onClose={() => setNaverModal(false)}
-      />
+      {isGoogleModalOpen && (
+        <GoogleLoginModal onClose={() => setGoogleModal(false)} />
+      )}
+      {isNaverModalOpen && (
+        <NaverLoginModal onClose={() => setNaverModal(false)} />
+      )}
+      {isKakaoModalOpen && (
+        <KakaoLoginModal onClose={() => setKakaoModal(false)} />
+      )}
       <form onSubmit={handleSubmit} className="w-full space-y-2">
         <div>
           <input
@@ -142,21 +145,15 @@ const LoginForm = () => {
         <div className="flex flex-row">
           <FcGoogle
             className="w-20 h-20 cursor-pointer"
-            onClick={() => {
-              console.log("Google");
-              setGoogleModal(true);
-            }}
+            onClick={() => setGoogleModal(true)}
           />
           <SiNaver
             className="w-20 h-20 text-green-500 cursor-pointer"
-            onClick={() => {
-              console.log("Naver");
-              setNaverModal(true);
-            }}
+            onClick={() => setNaverModal(true)}
           />
           <RiKakaoTalkFill
             className="w-20 h-20 text-yellow-400 cursor-pointer"
-            onClick={() => console.log("Kakao")}
+            onClick={() => setKakaoModal(true)}
           />
         </div>
         <div className="text-sm">

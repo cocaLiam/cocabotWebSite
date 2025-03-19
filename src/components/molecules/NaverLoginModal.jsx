@@ -1,109 +1,50 @@
-// components/NaverLoginModal.jsx
-import { useEffect, useState, useCallback, useContext } from "react";
-import ErrorModal from "@/components/molecules/ErrorModal";
-import LoadingSpinner from "@/components/atoms/LoadingSpinner";
-import { useHttpHook } from "@/hooks/useHttpHook";
-import { handleError } from "@/utils/errorHandler";
-import { AuthContext } from "@/context/AuthContext";
+import React, { useEffect } from "react";
+
 import PropTypes from "prop-types";
 
-const NaverLoginModal = ({ isOpen, onClose }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-
-  const { sendRequest } = useHttpHook();
-  const authStatus = useContext(AuthContext);
-
-  const handleNaverLogin = useCallback(
-    async (naverUser) => {
-      console.log(naverUser);
-      setIsLoading(true);
-      try {
-        const responseData = await sendRequest({
-          url: "/api/oauth/naverLogin",
-          method: "POST",
-          data:{naverUser}
-          // data: {
-          //   email: naverUser.email,
-          //   name: naverUser.name,
-          //   id: naverUser.id,
-          // },
-        });
-
-        const { dbObjectId, token } = responseData;
-        await authStatus.saveToken(dbObjectId, token);
-        onClose();
-      } catch (err) {
-        console.error("네이버 로그인 실패:", err);
-        handleError(err, setErrorMessage, setIsErrorModalOpen);
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [sendRequest, onClose, authStatus]
-  );
-
-  const loadNaverScript = useCallback(() => {
-    // babel-polyfill 중복 로드 방지
-    if (!window._babelPolyfill) {
-      const script = document.createElement("script");
-      script.src = "https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js";
-      script.async = true;
-      script.defer = true;
-      return script;
-    }
-    return null;
-  }, []);
-
+const NaverLoginModal = ({ onClose }) => {
   useEffect(() => {
-    if (isOpen) {
-      const script = loadNaverScript();
-      if (script) {
-        script.onload = () => {
-          const naverLogin = new window.naver.LoginWithNaverId({
-            clientId: import.meta.env.VITE_NAVER_CLIENT_ID,
-            callbackUrl: import.meta.env.VITE_NAVER_CALLBACK_URL,
-            isPopup: false,
-            loginButton: { color: "green", type: 3, height: 60 }
-          });
+    const script = document.createElement("script");
+    script.src = "https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js";
+    script.async = true;
+    document.head.appendChild(script);
 
-          const loginButton = document.getElementById("naverIdLogin");
-          if (loginButton) {
-            naverLogin.init();
-            naverLogin.getLoginStatus((status) => {
-              if (status) {
-                handleNaverLogin(naverLogin.user);
-              }
-            });
-          }
-        };
-        document.head.appendChild(script);
-      }
+    script.onload = () => {
+      const naver_id_login = new window.naver_id_login(
+        import.meta.env.VITE_NAVER_CLIENT_ID,
+        import.meta.env.VITE_NAVER_CALLBACK_URL
+      );
+      const state = naver_id_login.getUniqState();
+      naver_id_login.setButton("green", 4, 80);
+      naver_id_login.setDomain(import.meta.env.VITE_NAVER_SERVICE_URL);
+      naver_id_login.setState(state);
+      // naver_id_login.setPopup();
+      naver_id_login.init_naver_id_login();
+    };
 
-      return () => {
-        if (script && script.parentNode) {
-          script.parentNode.removeChild(script);
-        }
-      };
-    }
-  }, [isOpen, loadNaverScript, handleNaverLogin]);
-
-  if (!isOpen) return null;
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
 
   return (
     <>
-      {isLoading && <LoadingSpinner />}
+      {/* {isLoading && <LoadingSpinner />}
       <ErrorModal
         isOpen={isErrorModalOpen}
         onClose={() => setIsErrorModalOpen(false)}
         content={errorMessage}
-      />
+      /> */}
       <div className="fixed inset-0 z-50 flex items-center justify-center">
+        {/* 배경 오버레이 */}
         <div className="fixed inset-0 bg-black opacity-50" onClick={onClose} />
+
+        {/* 모달 내용 */}
         <div className="z-10 p-8 bg-white rounded-lg shadow-xl">
           <h2 className="mb-4 text-2xl font-bold text-black">네이버 로그인</h2>
-          <div id="naverIdLogin" className="flex justify-center"></div>
+
+          <div id="naver_id_login"></div>
+          
           <button
             onClick={onClose}
             className="w-full px-4 py-2 mt-4 text-gray-700 transition-colors bg-gray-200 rounded hover:bg-gray-300"
@@ -117,7 +58,6 @@ const NaverLoginModal = ({ isOpen, onClose }) => {
 };
 
 NaverLoginModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 

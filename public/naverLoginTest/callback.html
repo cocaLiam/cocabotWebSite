@@ -1,0 +1,91 @@
+
+
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <script
+      type="text/javascript"
+      src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js"
+      charset="utf-8"
+    ></script>
+    <script
+      type="text/javascript"
+      src="http://code.jquery.com/jquery-1.11.3.min.js"
+    ></script>
+  </head>
+  <body>
+    <script type="text/javascript">
+      var naver_id_login = new naver_id_login(
+        "5s1iVFploN9tIf9U6UMs",
+        "http://localhost:3000/naverLoginTest/callback.html"
+      );
+      // 접근 토큰 값 출력
+      // alert(naver_id_login.oauthParams.access_token);
+      // 네이버 사용자 프로필 조회
+      naver_id_login.get_naver_userprofile("naverSignInCallback()");
+      // 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
+      function naverSignInCallback() {
+        console.log("naver_id_login.oauthParams.access_token 정보");
+        console.log(naver_id_login.oauthParams.access_token);
+        const email = naver_id_login.getProfileData("email");  // << 요거
+        const nickname = naver_id_login.getProfileData("nickname");
+        const profileImage = naver_id_login.getProfileData("profile_image");
+        const age = naver_id_login.getProfileData("age");
+        const gender = naver_id_login.getProfileData("gender");
+        const id = naver_id_login.getProfileData("id");
+        const name = naver_id_login.getProfileData("name");  // << 요거 만 있음
+        const birthday = naver_id_login.getProfileData("birthday");
+
+        // ex)  http://localhost:3000/naverLoginTest/APILogin.html
+        // email: wonhyuk1994@naver.com
+        // nickname: 해리
+        // profileImage: https://ssl.pstatic.net/static/pwe/address/img_profile.png
+        // age: 30-39
+        // gender: M
+        // id: kKB1PxBYxIBU154PgpYteMed2kmcLiWoDo7T8dP8xbg
+        // name: 임원혁
+        // birthday: 09-06
+
+        // ex)
+        //     {
+        //   "resultcode": "00",
+        //   "message": "success",
+        //   "response": {
+        //     "email": "openapi@naver.com",
+        //     "nickname": "OpenAPI",
+        //     "profile_image": "https://ssl.pstatic.net/static/pwe/address/nodata_33x33.gif",
+        //     "age": "40-49",
+        //     "gender": "F",
+        //     "id": "32742776",
+        //     "name": "오픈 API",
+        //     "birthday": "10-01"
+        //   }
+        // }
+
+        // 객체 형태로 데이터 정리
+        const userProfile = {
+          email: email,
+          nickname: nickname,
+          profileImage: profileImage,
+          age: age,
+          gender: gender,
+          id: id,
+          name: name,
+          birthday: birthday,
+        };
+
+        // console.log로 이쁘게 출력
+        console.log("===== userProfile =====");
+        console.log(userProfile);
+        console.log("===================================");
+
+        // 또는 각 필드별로 출력
+        console.log("===== userProfile =====");
+        for (const [key, value] of Object.entries(userProfile)) {
+          console.log(`${key}: ${value}`);
+        }
+        console.log("===================================");
+      }
+    </script>
+  </body>
+</html>
