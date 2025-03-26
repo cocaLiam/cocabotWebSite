@@ -27,8 +27,6 @@
       naver_id_login.get_naver_userprofile("naverSignInCallback()");
       // 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
       async function naverSignInCallback() {
-        console.log("naver_id_login.oauthParams.access_token 정보");
-        console.log(naver_id_login.oauthParams.access_token);
         const email = naver_id_login.getProfileData("email"); // << 요거
         const nickname = naver_id_login.getProfileData("nickname");
         const profileImage = naver_id_login.getProfileData("profile_image");
@@ -51,18 +49,6 @@
           idToken: naver_id_login.oauthParams.access_token,
         };
 
-        // console.log로 이쁘게 출력
-        console.log("===== userProfile =====");
-        console.log(userProfile);
-        console.log("===================================");
-
-        // 또는 각 필드별로 출력
-        console.log("===== userProfile =====");
-        for (const [key, value] of Object.entries(userProfile)) {
-          console.log(`${key}: ${value}`);
-        }
-        console.log("===================================");
-
         // 백엔드 서버로 POST 요청
         try {
           const response = await fetch(
@@ -77,7 +63,6 @@
           );
 
           const responseData = await response.json(); // 응답 데이터를 JSON으로 파싱
-          console.log("1111111:", responseData);
 
           // 로그인 성공 처리
           if (response.ok) {
@@ -93,18 +78,31 @@
                 expiration: newTokenExpiration,
               })
             );
-            console.log("로그인 성공! 정보 저장 완료.");
 
-            window.location.href = "/";  // 로그인 성공 후 메인화면으로 링크 이동
+            window.location.href = "/"; // 로그인 성공 후 메인화면으로 링크 이동
           } else {
             console.error("서버 에러:", responseData.message || "로그인 실패");
+            document.getElementById("loginStatus").textContent =
+              "네이버 로그인 실패";
+            document.getElementById(
+              "loginMessage"
+            ).innerHTML = `${responseData.message} <br> [ 3초후 재접속 ]`;
+
+            // 3초 후 루트 페이지로 이동
+            setTimeout(() => {
+              window.location.href = `/login/Login?error=NaverLoginFail`;
+            }, 3000); // 3000ms = 3초
+
+            // window.location.href = `/login/Login?error=NaverLoginFail&userProfile=${encodeURIComponent(JSON.stringify(userProfile))}`;
+
+            // window.location.href = `/login/Login?error=NaverLoginFail?userProfile=${userProfile}`;
           }
         } catch (error) {
           console.error("요청 중 에러 발생:", error);
         }
       }
     </script>
-    <h1>Naver Login ...</h1>
-    <p>wait a moment please</p>
+    <h1 id="loginStatus">Naver Login ...</h1>
+    <p id="loginMessage">wait a moment please</p>
   </body>
 </html>

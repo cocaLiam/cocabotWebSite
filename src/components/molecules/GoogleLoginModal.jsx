@@ -31,8 +31,6 @@ const GoogleLoginModal = ({ onClose }) => {
           data: { credential },
         });
 
-        console.log("로그인 성공:", responseData);
-
         // 응답 데이터에서 사용자 ID와 토큰 추출
         const { dbObjectId, token } = responseData;
         await authStatus.saveToken(dbObjectId, token);

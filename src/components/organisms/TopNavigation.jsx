@@ -7,6 +7,7 @@ import { Route } from "react-router-dom";
 
 import LoadingSpinner from "@/components/atoms/LoadingSpinner";
 import ErrorModal from "@/components/molecules/ErrorModal";
+
 import HomeIcon from "@/components/atoms/icons/HomeIcon";
 
 import { AuthContext } from "@/context/AuthContext";
@@ -64,14 +65,18 @@ const TopNavigation = () => {
   const linkStyle =
     "flex items-center justify-center h-full text-white px-2 text-2xl ";
 
-    authStatus.log
+  authStatus.log;
   if (authStatus.isLoggedIn) {
     // 로그인 상태
     routingPages = (
       <React.Fragment>
         <div className="flex justify-between w-full h-full">
           <Link to="/" className={`${linkStyle}`}>
-            <HomeIcon w="48" h="48" />
+            <img
+              src="/cocabotLogo.svg"
+              alt="Cocabot Logo"
+              className="w-auto h-12"
+            />
           </Link>
           <div className="flex h-full">
             <Link to="/" className={`${linkStyle} font-semibold`}>
@@ -88,7 +93,10 @@ const TopNavigation = () => {
             </Link>
           </div>
           <div className="flex h-full">
-            <Link onClick={() => authStatus.logout()} className={`${linkStyle} font-mono`}>
+            <Link
+              onClick={() => authStatus.logout()}
+              className={`${linkStyle} font-mono`}
+            >
               로그아웃
             </Link>
             <Link to="/MemberInfo" className={`${linkStyle} font-mono`}>
@@ -110,7 +118,11 @@ const TopNavigation = () => {
       <React.Fragment>
         <div className="flex justify-between w-full h-full">
           <Link to="/" className={`${linkStyle}`}>
-            <HomeIcon w="48" h="48" />
+            <img
+              src="/cocabotLogo.svg"
+              alt="Cocabot Logo"
+              className="w-auto h-12"
+            />
           </Link>
           <div className="flex h-full">
             <Link to="/" className={`${linkStyle} font-semibold`}>

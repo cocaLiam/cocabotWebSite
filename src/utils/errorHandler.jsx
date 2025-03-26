@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
  */
 export const handleError = (err, setErrorMessage, setIsErrorModalOpen) => {
   let message = "알 수 없는 에러가 발생했습니다."; // 기본 에러 메시지
+  const backEndErrorMsg = err.response.data.message;
 
   switch (err.status) {
     case 204:
@@ -50,10 +51,10 @@ export const handleError = (err, setErrorMessage, setIsErrorModalOpen) => {
     case 133:
       message = "블루투스 연결 에러: ";
       break;
-    default:
-      if (err.message) {
-        message = err.message; // 에러 객체에 메시지가 있으면 사용
-      }
+  }
+
+  if (backEndErrorMsg) {
+    message = backEndErrorMsg; // 에러 객체에 메시지가 있으면 사용
   }
 
   setErrorMessage(message); // 에러 메시지 설정

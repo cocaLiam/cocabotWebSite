@@ -2,6 +2,8 @@
 import axios from "axios";
 import { useEffect, useState, useCallback, useContext } from "react";
 
+import kakaoLoginImage from "@/assets/kakaoLoginLogo.png";
+
 import ErrorModal from "@/components/molecules/ErrorModal";
 import LoadingSpinner from "@/components/atoms/LoadingSpinner";
 
@@ -17,7 +19,6 @@ const KakaoLoginModal = ({ onClose }) => {
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  console.log(import.meta.env.VITE_KAKAO_REDIRECTION_URL);
   return (
     <>
       {isLoading && <LoadingSpinner />}
@@ -35,7 +36,9 @@ const KakaoLoginModal = ({ onClose }) => {
           <h2 className="mb-4 text-4xl text-black">카카오 로그인</h2>
           {/* http://localhost:3000/login/Login?code=Bz_lJsNW-zEoMJ_Tn7vMeQTLcX_egRTAo_br4kiWKbxHNoOiXQBRwAAAAAQKDQ0hAAABla4WD8Kvm_uHqQwxKA */}
           <img
-            src="//k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg"
+            className="cursor-pointer"
+            // src="//k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg"
+            src={kakaoLoginImage}
             width="400"
             alt="카카오 로그인 버튼"
             onClick={() => window.location.href = import.meta.env.VITE_KAKAO_REDIRECTION_URL}

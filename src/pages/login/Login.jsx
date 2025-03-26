@@ -7,7 +7,9 @@
 //   useRef,
 //   useMemo,
 // } from "react";
-import { useState, useContext, useCallback } from "react";
+import { useState, useContext, useEffect } from "react";
+
+import { useSearchParams } from "react-router-dom";
 
 import LoadingSpinner from "@/components/atoms/LoadingSpinner";
 
@@ -29,6 +31,28 @@ export default function Home() {
   // HTTP 요청을 처리하기 위한 커스텀 훅에서 sendRequest 함수 가져오기
   const { sendRequest } = useHttpHook();
   const authStatus = useContext(AuthContext);
+
+  const [searchParams] = useSearchParams();
+  const error = searchParams.get("error");
+  const userProfile = searchParams.get("userProfile");
+
+  // error 값이 'naverLoginFail'일 경우 처리
+  useEffect(() => {
+    if (error) {
+      // 에러 처리 로직
+      console.log(error);
+    }
+    if (userProfile) {
+      // userProfile 출력
+      const parsedProfile = JSON.parse(userProfile);
+      console.log("받은 사용자 프로필:", parsedProfile);
+    }
+    // if (userProfile) {
+    //   // 에러 처리 로직
+    //   console.log(userProfile);
+    //   console.log(JSON.stringify(userProfile,null,2))
+    // }
+  }, []);
 
   return (
     <>

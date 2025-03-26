@@ -24,13 +24,18 @@ const KakaoLoginPage = React.lazy(() => import("@/pages/login/KakaoLoginPage"));
 import "./App.css";
 
 function App() {
-  console.log("#Start APP#");
-  console.log(`Back : ${import.meta.env.VITE_BACKEND_SERVER}`);
-  const authStatus = useContext(AuthContext)
-
   useEffect(() => {
-    console.log("authStatus in App.jsx:", authStatus);
-  }, [authStatus]);
+    console.log(`%c
+    ┏━━━━━━━━━━━━┓
+    ┃    COCABOT WEBSITE     ┃
+    ┃     Version: ${import.meta.env.VITE_WEB_VERSION}       ┃
+    ┃   Starting System...   ┃
+    ┗━━━━━━━━━━━━┛`, 
+    'color: #4CAF50; font-weight: bold; font-size: 12px;'
+  );
+  }, []);
+
+  const authStatus = useContext(AuthContext)
   
   let routingPages;
   if (authStatus.isLoggedIn){
