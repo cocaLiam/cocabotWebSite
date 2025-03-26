@@ -30,7 +30,7 @@ export const useHttpHook = () => {
     activeRequests.current.push(source);
 
     // 상세 로깅 추가
-    // console.log('HTTP > 전체 설정값:', JSON.stringify(config,null, 2));
+    console.log('HTTP > 전체 설정값:', JSON.stringify(config,null, 2));
 
     try {
       const response = await axiosInstance({

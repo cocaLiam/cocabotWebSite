@@ -15,22 +15,12 @@ import LoadingSpinner from "@/components/atoms/LoadingSpinner";
 
 import ErrorModal from "@/components/molecules/ErrorModal";
 
-import { AuthContext } from "@/context/AuthContext";
-
-import { useHttpHook } from "@/hooks/useHttpHook"; // HTTP 요청을 처리하는 커스텀 훅
-
-import { handleError } from "@/utils/errorHandler";
-
 import LoginForm from "@/components/molecules/auth_forms/LoginForm";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
-  // HTTP 요청을 처리하기 위한 커스텀 훅에서 sendRequest 함수 가져오기
-  const { sendRequest } = useHttpHook();
-  const authStatus = useContext(AuthContext);
 
   const [searchParams] = useSearchParams();
   const error = searchParams.get("error");
