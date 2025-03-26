@@ -4,27 +4,38 @@ import PropTypes from "prop-types";
 
 const NaverLoginModal = ({ onClose }) => {
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js";
-    script.async = true;
-    document.head.appendChild(script);
+    /* index.html 에서 따로 해서 주석처리함 */
+    // const script = document.createElement("script");
+    // script.src = "https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js";
+    // script.async = true;
+    // document.head.appendChild(script);
 
-    script.onload = () => {
-      const naver_id_login = new window.naver_id_login(
-        import.meta.env.VITE_NAVER_CLIENT_ID,
-        import.meta.env.VITE_NAVER_CALLBACK_URL
-      );
-      const state = naver_id_login.getUniqState();
-      naver_id_login.setButton("green", 4, 80);
-      naver_id_login.setDomain(import.meta.env.VITE_NAVER_SERVICE_URL);
-      naver_id_login.setState(state);
-      // naver_id_login.setPopup();
-      naver_id_login.init_naver_id_login();
-    };
+    // script.onload = () => {
+    //   const naver_id_login = new window.naver_id_login(
+    //     import.meta.env.VITE_NAVER_CLIENT_ID,
+    //     import.meta.env.VITE_NAVER_CALLBACK_URL
+    //   );
+    //   const state = naver_id_login.getUniqState();
+    //   naver_id_login.setButton("green", 4, 80);
+    //   naver_id_login.setDomain(import.meta.env.VITE_NAVER_SERVICE_URL);
+    //   naver_id_login.setState(state);
+    //   // naver_id_login.setPopup();
+    //   naver_id_login.init_naver_id_login();
+    // };
 
-    return () => {
-      document.head.removeChild(script);
-    };
+    // return () => {
+    //   document.head.removeChild(script);
+    // };
+    const naver_id_login = new window.naver_id_login(
+      import.meta.env.VITE_NAVER_CLIENT_ID,
+      import.meta.env.VITE_NAVER_CALLBACK_URL
+    );
+    const state = naver_id_login.getUniqState();
+    naver_id_login.setButton("green", 4, 80);
+    naver_id_login.setDomain(import.meta.env.VITE_NAVER_SERVICE_URL);
+    naver_id_login.setState(state);
+    // naver_id_login.setPopup();
+    naver_id_login.init_naver_id_login();
   }, []);
 
   return (

@@ -1,7 +1,7 @@
 // "@/pages/login/KakaoLoginPage"
 import axios from "axios";
 import { useEffect, useState, useCallback, useContext } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 import ErrorModal from "@/components/molecules/ErrorModal";
 import LoadingSpinner from "@/components/atoms/LoadingSpinner";
@@ -15,7 +15,7 @@ const KakaoLoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const navigate = useNavigate();  // useNavigate 훅 사용
+  const navigate = useNavigate(); // useNavigate 훅 사용
 
   const { sendRequest } = useHttpHook();
   const authStatus = useContext(AuthContext);
@@ -81,20 +81,20 @@ const KakaoLoginPage = () => {
         },
       });
 
-// # (profile_nickname)	카카오계정 프로필 닉네임	
-// # (profile_image)	카카오계정 프로필 사진
-// # (account_email)	카카오계정 대표 이메일
-// # (name)	카카오계정 이름	
-// # (gender)	카카오계정의 성별
-// # (age_range)	카카오계정의 연령대
-// # (birthday)	카카오계정의 생일
-// # (birthyear)	카카오계정의 출생 연도
-// # (phone_number)	카카오계정과 연결된 카카오톡에 등록된 전화번호
-// # (account_ci)	카카오계정의 암호화된 이용자 확인 값
-// # (friends)	카카오계정의 카카오톡 친구 정보 목록
-// # (plusfriends)	사용자와 서비스 앱에 연결된 카카오톡 채널의 친구 관계
-// # (shipping_address)	카카오계정의 배송지 정보
-// # (openid_sse)	사용자의 계정 상태 변경 이벤트 중 CAEP, RISC 카테고리 이벤트 발생 시 정보 제공
+      // # (profile_nickname)	카카오계정 프로필 닉네임
+      // # (profile_image)	카카오계정 프로필 사진
+      // # (account_email)	카카오계정 대표 이메일
+      // # (name)	카카오계정 이름
+      // # (gender)	카카오계정의 성별
+      // # (age_range)	카카오계정의 연령대
+      // # (birthday)	카카오계정의 생일
+      // # (birthyear)	카카오계정의 출생 연도
+      // # (phone_number)	카카오계정과 연결된 카카오톡에 등록된 전화번호
+      // # (account_ci)	카카오계정의 암호화된 이용자 확인 값
+      // # (friends)	카카오계정의 카카오톡 친구 정보 목록
+      // # (plusfriends)	사용자와 서비스 앱에 연결된 카카오톡 채널의 친구 관계
+      // # (shipping_address)	카카오계정의 배송지 정보
+      // # (openid_sse)	사용자의 계정 상태 변경 이벤트 중 CAEP, RISC 카테고리 이벤트 발생 시 정보 제공
 
       await requestKakaoLogin({
         email: response.data.kakao_account.email,
@@ -121,10 +121,14 @@ const KakaoLoginPage = () => {
         const { dbObjectId, token } = responseData;
         await authStatus.saveToken(dbObjectId, token);
 
-        // window.location.href = "/";  // 로그인 성공 후 메인화면으로 링크 이동
-        navigate('/');
+        navigate("/");
       } catch (err) {
         console.error("로그인 실패:", err);
+        document.getElementById("loginStat").textContent =
+          "카카오 로그인 실패";
+        document.getElementById(
+          "loginMessage"
+        ).innerHTML = `${err.response.data.message}`;
         handleError(err, setErrorMessage, setIsErrorModalOpen);
       } finally {
         setIsLoading(false);
@@ -141,7 +145,8 @@ const KakaoLoginPage = () => {
         onClose={() => setIsErrorModalOpen(false)}
         content={errorMessage}
       />
-      <h1>Kakao Login ...</h1>
+      <h1 id="loginStat">Kakao Login ...</h1>
+      <p id="loginMessage">wait a moment please</p>
     </div>
   );
 };
