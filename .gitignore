@@ -5,6 +5,8 @@
 /backend/node_modules
 /frontend/package-lock.json
 /backend/package-lock.json
+/kakaoLoginTest
+/naverLoginTest
 
 # dependencies
 /node_modules
