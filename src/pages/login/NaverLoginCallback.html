@@ -20,14 +20,11 @@
       window.jwtDecode = jwtDecode;
     </script>
     <script type="text/javascript">
-      // var naver_id_login = new naver_id_login(
-      //   "<{VITE_NAVER_CLIENT_ID}>",
-      //   "<{VITE_NAVER_CALLBACK_URL}>"
-      // );
       var naver_id_login = new naver_id_login(
-        "A6Cc8QRv5bPE13Dt49yD",
-        "https://cocabot.com/src/pages/login/NaverLoginCallback.html"
+        "<{VITE_NAVER_CLIENT_ID}>",
+        "<{VITE_NAVER_CALLBACK_URL}>"
       );
+
       naver_id_login.get_naver_userprofile("naverSignInCallback()");
       // 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
       async function naverSignInCallback() {
