@@ -63,6 +63,8 @@
             }
           );
 
+          console.log
+
           const responseData = await response.json(); // 응답 데이터를 JSON으로 파싱
 
           // 로그인 성공 처리
@@ -83,7 +85,7 @@
             window.location.href = "/"; // 로그인 성공 후 메인화면으로 링크 이동
           } else {
             console.error("서버 에러:", responseData.message || "로그인 실패");
-            // window.location.href = `/login/Login?error=NaverLoginFail&errorMsg=${responseData.message}`
+            window.location.href = `/login/Login?error=NaverLoginFail&errorMsg=${responseData.message}`
 
             /* CloudFront 오류페이지로 인해 배포서버에서는 허용된 접근이외에 Ban 처리됨 */
             // document.getElementById("loginStatus").textContent =
