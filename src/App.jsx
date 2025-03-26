@@ -80,10 +80,9 @@ function App() {
       <BrowserRouter>
         <Suspense fallback={<LoadingSpinner/>}>  {/* React.lazy 동적 컴포넌트(Pages)들이 로딩 될때 까지 fallback 함수실행 */}
           <Routes>
-
+            <Route path="*" element={<Navigate to="/" />} /> {/* Routing 하는 경로 이외의 Link 는 / <- Home 으로 리다이렉팅 */}
             <Route element={<MainLayout />}> {/* MainLayout을 부모 Route로 설정 */}
-                {routingPages}
-                <Route path="*" element={<Navigate to="/" />} /> {/* Routing 하는 경로 이외의 Link 는 / <- Home 으로 리다이렉팅 */}
+              {routingPages}
             </Route>
 
           </Routes>
