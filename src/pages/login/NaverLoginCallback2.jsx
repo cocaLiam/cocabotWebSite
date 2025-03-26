@@ -1,11 +1,54 @@
-// src/pages/NaverLoginCallback2.jsx
+// src/pages/login/NaverLoginCallback2.jsx
 
-import React, { useEffect } from "react";
-import jwtDecode from "jwt-decode";
+import { useState, useContext, useCallback, useEffect } from "react";
+
+import LoadingSpinner from "@/components/atoms/LoadingSpinner";
+
+import ErrorModal from "@/components/molecules/ErrorModal";
+
+import { AuthContext } from "@/context/AuthContext";
+
+import { useHttpHook } from "@/hooks/useHttpHook"; // HTTP 요청을 처리하는 커스텀 훅
+
+import { handleError } from "@/utils/errorHandler";
 
 const NaverLoginCallback2 = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  // HTTP 요청을 처리하기 위한 커스텀 훅에서 sendRequest 함수 가져오기
+  const { sendRequest } = useHttpHook();
+  const authStatus = useContext(AuthContext);
+
+  const requestNaverLogin = useCallback(
+    async (payload) => {
+      setIsLoading(true);
+      try {
+        const responseData = await sendRequest({
+          url: "/api/oauth/naverLogin",
+          method: "POST",
+          data: { payload },
+        });
+
+        // 응답 데이터에서 사용자 ID와 토큰 추출
+        const { dbObjectId, token } = responseData;
+        await authStatus.saveToken(dbObjectId, token);
+
+        // window.location.href = "/";  // 로그인 성공 후 메인화면으로 링크 이동
+        // navigate('/');
+      } catch (err) {
+        console.error("로그인 실패:", err);
+        handleError(err, setErrorMessage, setIsErrorModalOpen);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [sendRequest, authStatus]
+  );
+
   useEffect(() => {
-    const naver_id_login = new window.naver_id_login(
+    let naver_id_login = new window.naver_id_login(
       import.meta.env.VITE_NAVER_CLIENT_ID,
       import.meta.env.VITE_NAVER_CALLBACK_URL
     );
@@ -16,57 +59,31 @@ const NaverLoginCallback2 = () => {
     window.naverSignInCallback = async () => {
       console.log("----------------------------------------------2");
       const email = naver_id_login.getProfileData("email");
-      const nickname = naver_id_login.getProfileData("nickname");
-      const profileImage = naver_id_login.getProfileData("profile_image");
-      const age = naver_id_login.getProfileData("age");
-      const gender = naver_id_login.getProfileData("gender");
-      const id = naver_id_login.getProfileData("id");
+      // const nickname = naver_id_login.getProfileData("nickname");
+      // const profileImage = naver_id_login.getProfileData("profile_image");
+      // const age = naver_id_login.getProfileData("age");
+      // const gender = naver_id_login.getProfileData("gender");
+      // const id = naver_id_login.getProfileData("id");
       const name = naver_id_login.getProfileData("name");
-      const birthday = naver_id_login.getProfileData("birthday");
+      // const birthday = naver_id_login.getProfileData("birthday");
 
-      const userProfile = {
-        email,
-        nickname,
-        profileImage,
-        age,
-        gender,
-        id,
-        name,
-        birthday,
-        idToken: naver_id_login.oauthParams.access_token,
-      };
+      // const userProfile = {
+      //   email,
+      //   nickname,
+      //   profileImage,
+      //   age,
+      //   gender,
+      //   id,
+      //   name,
+      //   birthday,
+      //   idToken: naver_id_login.oauthParams.access_token,
+      // };
 
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_SERVER}/api/oauth/naverLogin`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ payload: userProfile }),
-          }
-        );
-
-        const responseData = await response.json();
-
-        if (response.ok) {
-          const { dbObjectId, token } = responseData;
-          const newTokenExpiration = new Date(jwtDecode(token).exp * 1000);
-          localStorage.setItem(
-            "tokenData",
-            JSON.stringify({
-              dbObjectId,
-              token,
-              expiration: newTokenExpiration,
-            })
-          );
-
-          window.location.href = "/";
-        } else {
-          console.error("서버 에러:", responseData.message || "로그인 실패");
-          window.location.href = `/login/Login?error=NaverLoginFail&errorMsg=${responseData.message}`;
-        }
+        await requestNaverLogin({
+          email: email,
+          name: name,
+        });
       } catch (error) {
         console.error("요청 중 에러 발생:", error);
       }
