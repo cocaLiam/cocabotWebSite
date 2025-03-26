@@ -82,7 +82,7 @@ function App() {
           <Routes>
             <Route element={<MainLayout />}> {/* MainLayout을 부모 Route로 설정 */}
               {routingPages}
-              <Route path="*" element={<Navigate to="/" />} /> {/* Routing 하는 경로 이외의 Link 는 / <- Home 으로 리다이렉팅 */}
+            <Route path="*" element={<Navigate to="/" />} /> {/* Routing 하는 경로 이외의 Link 는 / <- Home 으로 리다이렉팅 */}
             </Route>
 
           </Routes>
