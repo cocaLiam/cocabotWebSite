@@ -23,6 +23,7 @@ export default function Home() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const [searchParams] = useSearchParams();
+  
   const error = searchParams.get("error");
   const errorMsg = searchParams.get("errorMsg");
 

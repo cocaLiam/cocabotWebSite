@@ -85,7 +85,7 @@
             console.error("서버 에러:", responseData.message || "로그인 실패");
             window.location.href = `/login/Login?error=NaverLoginFail&errorMsg=${responseData.message}`
 
-            
+            /* CloudFront 오류페이지로 인해 배포서버에서는 허용된 접근이외에 Ban 처리됨 */
             // document.getElementById("loginStatus").textContent =
             //   "네이버 로그인 실패";
             // document.getElementById(
