@@ -83,20 +83,21 @@
             window.location.href = "/"; // 로그인 성공 후 메인화면으로 링크 이동
           } else {
             console.error("서버 에러:", responseData.message || "로그인 실패");
-            document.getElementById("loginStatus").textContent =
-              "네이버 로그인 실패";
-            document.getElementById(
-              "loginMessage"
-            ).innerHTML = `${responseData.message} <br> [ 3초후 재접속 ]`;
+            window.location.href = `/login/Login?error=NaverLoginFail&errorMsg=${responseData.message}`
 
-            // 3초 후 루트 페이지로 이동
-            setTimeout(() => {
-              window.location.href = `/login/Login?error=NaverLoginFail`;
-            }, 3000); // 3000ms = 3초
+            
+            // document.getElementById("loginStatus").textContent =
+            //   "네이버 로그인 실패";
+            // document.getElementById(
+            //   "loginMessage"
+            // ).innerHTML = `${responseData.message}`;
+
+            // // 3초 후 루트 페이지로 이동
+            // setTimeout(() => {
+            //   window.location.href = `/login/Login?error=NaverLoginFail&errorMsg=${responseData.message}`;
+            // }, 3000); // 3000ms = 3초
 
             // window.location.href = `/login/Login?error=NaverLoginFail&userProfile=${encodeURIComponent(JSON.stringify(userProfile))}`;
-
-            // window.location.href = `/login/Login?error=NaverLoginFail?userProfile=${userProfile}`;
           }
         } catch (error) {
           console.error("요청 중 에러 발생:", error);

@@ -24,19 +24,21 @@ export default function Home() {
 
   const [searchParams] = useSearchParams();
   const error = searchParams.get("error");
-  const userProfile = searchParams.get("userProfile");
+  const errorMsg = searchParams.get("errorMsg");
 
   // error 값이 'naverLoginFail'일 경우 처리
   useEffect(() => {
     if (error) {
       // 에러 처리 로직
       console.log(error);
+      setErrorMessage(errorMsg)
+      setIsErrorModalOpen(true);
     }
-    if (userProfile) {
-      // userProfile 출력
-      const parsedProfile = JSON.parse(userProfile);
-      console.log("받은 사용자 프로필:", parsedProfile);
-    }
+    // if (userProfile) {
+    //   // userProfile 출력
+    //   const parsedProfile = JSON.parse(userProfile);
+    //   console.log("받은 사용자 프로필:", parsedProfile);
+    // }
     // if (userProfile) {
     //   // 에러 처리 로직
     //   console.log(userProfile);
