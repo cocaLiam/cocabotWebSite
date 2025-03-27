@@ -1,4 +1,4 @@
-// src/pages/login/NaverLoginCallback2.jsx
+// src/pages/login/NaverLoginPage.jsx
 
 import { useState, useContext, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +13,7 @@ import { useHttpHook } from "@/hooks/useHttpHook"; // HTTP 요청을 처리하�
 
 import { handleError } from "@/utils/errorHandler";
 
-const NaverLoginCallback2 = () => {
+const NaverLoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -49,7 +49,7 @@ const NaverLoginCallback2 = () => {
         setIsLoading(false);
       }
     },
-    [sendRequest, authStatus]
+    [sendRequest, authStatus, navigate]
   );
 
   useEffect(() => {
@@ -69,18 +69,6 @@ const NaverLoginCallback2 = () => {
       // const id = naver_id_login.getProfileData("id");
       const name = naver_id_login.getProfileData("name");
       // const birthday = naver_id_login.getProfileData("birthday");
-
-      // const userProfile = {
-      //   email,
-      //   nickname,
-      //   profileImage,
-      //   age,
-      //   gender,
-      //   id,
-      //   name,
-      //   birthday,
-      //   idToken: naver_id_login.oauthParams.access_token,
-      // };
 
       try {
         await requestNaverLogin({
@@ -107,4 +95,4 @@ const NaverLoginCallback2 = () => {
   );
 };
 
-export default NaverLoginCallback2;
+export default NaverLoginPage;

@@ -15,7 +15,7 @@ const CompanyStory = React.lazy(() => import("@/pages/CompanyStory"));  // 2. �
 const CustomerService = React.lazy(() => import("@/pages/CustomerService"));  // 3. 고객 서비스
 const Login = React.lazy(() => import("@/pages/login/Login"));  // 4-1. 로그인 (로그아웃 상태)
                                                           // 4-2. 로그아웃 (로그인 상태) <- Page가 아닌 버튼 레벨
-const NaverLoginCallback2 = React.lazy(() => import("@/pages/login/NaverLoginCallback2"));  // 4-1. 로그인 (로그아웃 상태)
+const NaverLoginPage = React.lazy(() => import("@/pages/login/NaverLoginPage"));  // 4-1. 로그인 (로그아웃 상태)
 const Signup = React.lazy(() => import("@/pages/Signup"));  // 5-1. 회원가입 (로그아웃 상태)
 const MemberInfo = React.lazy(() => import("@/pages/MemberInfo")); // 5-2. 회원정보 (로그인 상태)
 const MyPage = React.lazy(() => import("@/pages/MyPage")); // 6-1. 마이 페이지 ( 로그아웃 상태 일시, Login Page 라우팅)
@@ -65,7 +65,7 @@ function App() {
         <Route path="/CompanyStory" element={<CompanyStory />} />
         <Route path="/CustomerService" element={<CustomerService />} />
         <Route path="/login/Login" element={<Login />} />
-        <Route path="/login/NaverLoginCallback" element={<NaverLoginCallback2 />} />
+        <Route path="/login/NaverLoginPage" element={<NaverLoginPage />} />
         <Route path="/Signup" element={<Signup />} />
         {/* <Route path="/MemberInfo" element={<MemberInfo />} /> */}
         {/* <Route path="/MyPage" element={<MyPage />} /> */}

@@ -12,6 +12,7 @@ import {
   useContext,
   useCallback,
 } from "react";
+import PropTypes from 'prop-types';
 
 import LoadingSpinner from "@/components/atoms/LoadingSpinner";
 
@@ -23,7 +24,7 @@ import { useHttpHook } from "@/hooks/useHttpHook"; // HTTP 요청을 처리하�
 
 import { handleError } from "@/utils/errorHandler";
 
-export default function PageExample() {
+export default function PageExample({ a={status:11,msg:"msg"}, b, c, d, e = "text-gray-700" }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -76,3 +77,18 @@ export default function PageExample() {
     </>
   );
 }
+
+
+PageExample.propTypes = {
+  a: PropTypes.shape({
+    status: PropTypes.number,
+    msg: PropTypes.string,
+  }).isRequired,
+  b: PropTypes.elementType,
+  c: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element
+  ]),
+  d: PropTypes.func.isRequired,
+  e: PropTypes.string,
+};

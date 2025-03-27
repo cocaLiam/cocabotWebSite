@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
  */
 export const handleError = (err, setErrorMessage, setIsErrorModalOpen) => {
   let message = "알 수 없는 에러가 발생했습니다."; // 기본 에러 메시지
-  const backEndErrorMsg = err.response.data.message;
+  const backEndErrorMsg = err?.response?.data?.message;
 
   switch (err.status) {
     case 204:

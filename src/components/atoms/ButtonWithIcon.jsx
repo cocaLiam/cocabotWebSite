@@ -1,4 +1,4 @@
-// components/atoms/ButtonWithIcon.jsx
+// @/components/atoms/ButtonWithIcon.jsx
 import PropTypes from 'prop-types';
 
 /**
