@@ -20,8 +20,16 @@ import { useHttpHook } from "@/hooks/useHttpHook"; // HTTP 요청을 처리하�
 
 import { handleError } from "@/utils/errorHandler";
 
-export default function UserInfoEdit({ userInfo, onFormDataChange }) {
+export default function UserInfoEdit({ userInfo, fetchData}) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
   const [inputPassword, setInputPassword] = useState(""); // 입력 값을 저장할 상태 추가
+
+  // HTTP 요청을 처리하기 위한 커스텀 훅에서 sendRequest 함수 가져오기
+  const { sendRequest } = useHttpHook();
+  const authStatus = useContext(AuthContext);
 
   // 초기 formData 상태 설정
   // userInfo에서 받아온 데이터로 초기값을 설정하며, 값이 없을 경우 빈 문자열로 초기화
@@ -45,28 +53,65 @@ export default function UserInfoEdit({ userInfo, onFormDataChange }) {
     });
   }, [userInfo]);
 
-  // formData가 변경될 때마다 부모 컴포넌트에 데이터 전달
-  // 자식 컴포넌트의 상태 변화를 부모 컴포넌트에 실시간으로 알림
-  useEffect(() => {
-    onFormDataChange(formData);
-  }, [formData, onFormDataChange]);
-
   // 폼 제출 시 기본 동작(페이지 새로고침) 방지
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log("회원정보 수정");
+    console.log(formData);
+    await updateData(formData);
+    await fetchData();
+    
     // 정상적인 폼 처리 로직
     console.log("폼 제출 성공:", formData);
   };
 
   // 입력 필드 값이 변경될 때마다 formData 상태 업데이트
   // 이전 상태를 유지하면서(prev) 변경된 필드만 새로운 값으로 업데이트
+  // const handleChange = (field, value) => {
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     [field]: value,
+  //   }));
+  // };
   const handleChange = (field, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    setFormData((prev) => {
+      // 값이 비어있으면 해당 필드를 제거한 새로운 객체 반환
+      if (!value) {
+        const newFormData = { ...prev };
+        delete newFormData[field];
+        return newFormData;
+      }
+      // 값이 있으면 기존처럼 업데이트
+      return {
+        ...prev,
+        [field]: value,
+      };
+    });
   };
+
+  const updateData = useCallback(
+    async ({ ...kwargs }) => {
+      setIsLoading(true);
+      try {
+        await sendRequest({
+          url: "/api/user/updateUserInfo", // 로그인 엔드포인트
+          method: "PATCH", // HTTP 메서드
+          data: {
+            ...kwargs,
+          }, // 요청 데이터
+          headers: { Authorization: `Bearer ${authStatus.token}` }, // 현재 토큰을 Authorization 헤더에 포함
+        });
+
+        alert("회원 정보 수정 성공");
+      } catch (err) {
+        handleError(err, setErrorMessage, setIsErrorModalOpen); // 공통 에러 처리 함수 호출
+      } finally {
+        setIsLoading(false); // 로딩 상태 종료
+      }
+    },
+    [authStatus.token, authStatus.dbObjectId, sendRequest]
+  );
 
   const formField = ({
     /* 입력 필드 */
@@ -93,7 +138,6 @@ export default function UserInfoEdit({ userInfo, onFormDataChange }) {
             onChange={onChange}
             {...(value ? { value } : {})} // value가 있을 때만 적용
             disabled={disabled}
-            required
             autoFocus
           />
           <span className="flex items-center ml-2 text-base text-gray-500">
@@ -105,99 +149,123 @@ export default function UserInfoEdit({ userInfo, onFormDataChange }) {
   };
 
   return (
-    // <div>
-    //   {userInfo && Object.entries(userInfo).map(([key, value]) => (
-    //     <p key={key}>
-    //       {key}: {value + ` : ${Object.prototype.toString.call(value)}`}
-    //     </p>
-    //   ))}
-    // </div>
+    <>
+      {isLoading && <LoadingSpinner />}
+      <ErrorModal
+        isOpen={isErrorModalOpen}
+        onClose={() => setIsErrorModalOpen(false)}
+        content={errorMessage}
+      />
 
-    // <div className="flex flex-col border border-white">
-    <div className="flex flex-col">
-      {/* 회원정보 입력 폼 */}
+      {/* <div className="flex flex-col border border-white"> */}
+      <div className="flex flex-col">
+        {/* 회원정보 입력 폼 */}
 
-      <form onSubmit={handleSubmit}>
-        {formField({
-          label: "이메일",
-          type: "email",
-          pattern: "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}",
-          placeholder: "",
-          value: userInfo.userEmail,
-          description: "",
-          // onChange: (e) => handleEmailChange(e),
-          disabled: true,
-        })}
-        {userInfo.loginType === "email"
-          ? formField({
-              label: "변경할 비밀번호",
-              type: "password",
-              pattern: "^(?=.*[A-Za-z])(?=.*d)[A-Za-zd]{6,20}$",
-              description: "(영문자/숫자, 6~20자) 특수문자 가능",
-              placeholder: "",
-              value: "",
-              onChange: (e) => setInputPassword(e.target.value),
-              disabled: false,
-            })
-          : formField({
-              label: "변경할 비밀번호",
-              description: "(영문자/숫자, 6~20자)",
-              value: `${userInfo.loginType} 로그인 유저`,
-              disabled: true,
-            })}
-        {userInfo.loginType === "email"
-          ? formField({
-              label: "비밀번호 확인",
-              type: "password",
-              pattern: "^(?=.*[A-Za-z])(?=.*d)[A-Za-zd]{6,20}$",
-              placeholder: "",
-              value: "",
-              description: "(영문자/숫자, 6~20자) 특수문자 가능",
-              onChange: (e) => {
-                if (inputPassword == e.target.value) {
-                  handleChange("newPassword", e.target.value);
-                }
-              },
-              disabled: false,
-            })
-          : formField({
-              label: "비밀번호 확인",
-              value: `${userInfo.loginType} 로그인 유저`,
-              disabled: true,
-            })}
-        {formField({
-          label: "이름",
-          type: "text",
-          pattern: "^[가-힣a-zA-Z\\s]{2,20}$",
-          placeholder: userInfo.userName,
-          value: "",
-          description: "(영문/한글/공백, 2~20자)",
-          onChange: (e) => handleChange("userName", e.target.value),
-          disabled: false,
-        })}
-        {formField({
-          label: "주소",
-          type: "text",
-          pattern: "^[가-힣a-zA-Z0-9\\s,-]{2,100}$", // 한글, 영문, 숫자, 공백, 쉼표, 하이픈 허용
-          placeholder: userInfo.homeAddress,
-          value: "",
-          description: "(한글/영문/숫자/공백/쉼표/하이픈 허용)",
-          onChange: (e) => handleChange("homeAddress", e.target.value),
-          disabled: false,
-        })}
-        {formField({
-          label: "전화번호",
-          type: "tel", // 전화번호 입력에 적합한 type
-          pattern: "^\\d{2,3}-\\d{3,4}-\\d{4}$", // 전화번호 형식 (예: 010-1234-5678)
-          placeholder: userInfo.phoneNumber,
-          value: "",
-          description: "(예: 010-1234-5678)",
-          onChange: (e) => handleChange("phoneNumber", e.target.value),
-          disabled: false,
-        })}
-        {/* <input type="submit" value="전송" onClick={() => {console.log(11111111111)}}/> */}
-      </form>
-    </div>
+        <form onSubmit={handleSubmit}>
+          {formField({
+            label: "이메일",
+            type: "email",
+            pattern: "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}",
+            placeholder: "",
+            value: userInfo.userEmail,
+            description: "",
+            // onChange: (e) => handleEmailChange(e),
+            disabled: true,
+          })}
+          {userInfo.loginType === "email"
+            ? formField({
+                label: "변경할 비밀번호",
+                type: "password",
+                // pattern: "^(?=.*[A-Za-z])(?=.*d)[A-Za-zd]{6,20}$",
+                pattern: "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d!@#$%^&*()]{6,20}$",
+                description: "(영문자/숫자, 6~20자) 특수문자 가능",
+                placeholder: "",
+                value: "",
+                onChange: (e) => setInputPassword(e.target.value),
+                disabled: false,
+              })
+            : formField({
+                label: "변경할 비밀번호",
+                description: "(영문자/숫자, 6~20자)",
+                value: `${userInfo.loginType} 로그인 유저`,
+                disabled: true,
+              })}
+          {userInfo.loginType === "email"
+            ? formField({
+                label: "비밀번호 확인",
+                type: "password",
+                // pattern: "^(?=.*[A-Za-z])(?=.*d)[A-Za-zd]{6,20}$",
+                pattern: "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d!@#$%^&*()]{6,20}$",
+                placeholder: "",
+                value: "",
+                description: "(영문자/숫자, 6~20자) 특수문자 가능",
+                onChange: (e) => {
+                  if (inputPassword == e.target.value) {
+                    handleChange("newPassword", e.target.value);
+                  } else {handleChange("newPassword", "");}
+                },
+                disabled: false,
+              })
+            : formField({
+                label: "비밀번호 확인",
+                value: `${userInfo.loginType} 로그인 유저`,
+                disabled: true,
+              })}
+          {formField({
+            label: "이름",
+            type: "text",
+            pattern: "^[가-힣a-zA-Z\\s]{2,20}$",
+            placeholder: userInfo.userName,
+            value: "",
+            description: "(영문/한글/공백, 2~20자)",
+            onChange: (e) => handleChange("userName", e.target.value),
+            disabled: false,
+          })}
+          {formField({
+            label: "주소",
+            type: "text",
+            // pattern: "^[가-힣a-zA-Z0-9\\s,-]{2,100}$",    // 한글, 영문, 숫자, 공백, 쉼표, 하이픈 허용
+            pattern: "^[가-힣a-zA-Z0-9\\s,\\-]{2,100}$",  // `-`를 이스케이프 처리
+            placeholder: userInfo.homeAddress,
+            value: "",
+            description: "(한글/영문/숫자/공백/쉼표/하이픈 허용)",
+            onChange: (e) => handleChange("homeAddress", e.target.value),
+            disabled: false,
+          })}
+          {formField({
+            label: "전화번호",
+            type: "tel", // 전화번호 입력에 적합한 type
+            pattern: "^\\d{2,3}-\\d{3,4}-\\d{4}$", // 전화번호 형식 (예: 010-1234-5678)
+            placeholder: userInfo.phoneNumber,
+            value: "",
+            description: "(예: 010-1234-5678)",
+            onChange: (e) => handleChange("phoneNumber", e.target.value),
+            disabled: false,
+          })}
+          {/* <input type="submit" value="전송" onClick={() => {console.log(11111111111)}}/> */}
+          <div className="flex flex-row justify-center pt-8 space-x-2">
+            <button
+              className="text-3xl text-white bg-gray-800 min-w-60 hover:bg-gray-500"
+              // onClick={() => {
+              //   console.log("회원정보 수정");
+              //   console.log(formData);
+              //   updateData(formData);
+              // }}
+            >
+              회원정보 수정
+            </button>
+            {/* <button
+              className="text-3xl text-white bg-gray-800 min-w-60 hover:bg-gray-500"
+              onClick={() => {
+                console.log("취소");
+              }}
+            >
+              취소
+            </button> */}
+          </div>
+        </form>
+      </div>
+    </>
   );
 }
 
@@ -211,5 +279,5 @@ UserInfoEdit.propTypes = {
     deviceList: PropTypes.array,
     deviceGroupList: PropTypes.array,
   }),
-  onFormDataChange: PropTypes.func.isRequired,
+  fetchData: PropTypes.func
 };
