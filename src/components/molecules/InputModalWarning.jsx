@@ -1,4 +1,4 @@
-// components/molecules/InputModal.jsx
+// components/molecules/InputModalWarning.jsx
 import { useState } from "react";
 
 import PropTypes from "prop-types";
@@ -187,7 +187,7 @@ const SelectInputType = ({
   }
 };
 
-const InputModal = ({
+const InputModalWarning = ({
   isOpen,
   onConfirm,
   setClose,
@@ -314,9 +314,9 @@ const InputModal = ({
             <button
               type="submit"
               disabled={isLoading}
-              className="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
+              className="px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600"
             >
-              변경
+              삭제
             </button>
             <button
               type="button"
@@ -332,7 +332,7 @@ const InputModal = ({
   );
 };
 
-InputModal.propTypes = {
+InputModalWarning.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onConfirm: PropTypes.func.isRequired,
   setClose: PropTypes.func.isRequired,
@@ -344,4 +344,4 @@ InputModal.propTypes = {
   setPasswordCheck: PropTypes.bool,
 };
 
-export default InputModal;
+export default InputModalWarning;

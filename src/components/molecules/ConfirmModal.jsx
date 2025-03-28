@@ -1,4 +1,4 @@
-// components/molecules/ConfirmModal.jsx
+// @/components/molecules/ConfirmModal.jsx
 import PropTypes from "prop-types";
 
 import CloseButton from "@/components/atoms/CloseButton";

@@ -66,13 +66,13 @@ export default function UserInfoEdit({ userInfo, fetchData }) {
     //   }
     // },
 
-    if (checkPassword === true && inputPassword.length > 0) {
+    if (checkPassword === true) {
       const formDataWithPassword = {
         ...formData,
         newPassword: inputPassword,
       };
       console.log("폼 제출 성공(Password):", formDataWithPassword);
-      handleChange("newPassword", inputPassword);
+      handleChange("newPassword", inputPassword)
       await updateData(formDataWithPassword);
     } else {
       console.log("폼 제출 성공:", formData);
@@ -123,7 +123,7 @@ export default function UserInfoEdit({ userInfo, fetchData }) {
         });
 
         console.log("회원 정보 수정 성공");
-        alert("회원정보를 성공적으로 수정하였습니다.");
+        alert("회원정보를 성공적으로 수정하였습니다.")
       } catch (err) {
         console.log("회원 정보 수정 실패");
         handleError(err, setErrorMessage, setIsErrorModalOpen); // 공통 에러 처리 함수 호출
@@ -207,15 +207,11 @@ export default function UserInfoEdit({ userInfo, fetchData }) {
                 label: "변경할 비밀번호",
                 type: "password",
                 // pattern: "^(?=.*[A-Za-z])(?=.*d)[A-Za-zd]{6,20}$",
-                // pattern: "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d!@#$%^&*()]{6,20}$",
-                pattern: "^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9!@#$%^&*()]{6,20}$",
+                pattern: "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d!@#$%^&*()]{6,20}$",
                 description: "(영문자/숫자, 6~20자) 특수문자 가능",
                 placeholder: "",
                 value: "",
-                onChange: (e) => {
-                  setInputPassword(e.target.value);
-                  if (e.target.value.length == 0) setCheckPassword(true);
-                },
+                onChange: (e) => setInputPassword(e.target.value),
                 disabled: false,
               })
             : formField({
@@ -229,8 +225,7 @@ export default function UserInfoEdit({ userInfo, fetchData }) {
                 label: "비밀번호 확인",
                 type: "password",
                 // pattern: "^(?=.*[A-Za-z])(?=.*d)[A-Za-zd]{6,20}$",
-                // pattern: "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d!@#$%^&*()]{6,20}$",
-                pattern: "^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9!@#$%^&*()]{6,20}$",
+                pattern: "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d!@#$%^&*()]{6,20}$",
                 placeholder: "",
                 value: "",
                 description: "(영문자/숫자, 6~20자) 특수문자 가능",
@@ -287,7 +282,7 @@ export default function UserInfoEdit({ userInfo, fetchData }) {
             disabled: false,
           })}
           {/* <input type="submit" value="전송" onClick={() => {console.log(11111111111)}}/> */}
-          <div className="flex flex-row items-center justify-center pt-8 space-x-2">
+          <div className="flex flex-row justify-center pt-8 space-x-2">
             <button
               className="text-3xl text-white bg-gray-800 min-w-60 hover:bg-gray-500"
               // onClick={() => {

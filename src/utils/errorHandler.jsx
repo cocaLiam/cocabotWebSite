@@ -40,7 +40,7 @@ export const handleError = (err, setErrorMessage, setIsErrorModalOpen) => {
       message = "Email이 유효 하지 않습니다."
       break;
     case 422:
-      message = "사용자 입력값 유효하지 않음\n 비밀번호 6글자 이상 : "
+      message = "사용자 입력값 유효하지 않습니다."
       break;
     case 423:
       message = "PinCode가 유효하지 않습니다.\n PinCode를 제대로 입력 해 주세요"
