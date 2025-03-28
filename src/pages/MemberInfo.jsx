@@ -73,6 +73,7 @@ export default function Home() {
           data: { userEmail, password },
         });
         setUserInfo(responseData.userInfo);
+        await authStatus.logout();
       } catch (err) {
         handleError(err, setErrorMessage, setIsErrorModalOpen);
       } finally {
