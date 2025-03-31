@@ -21,7 +21,7 @@ const TopNavigation = (topGnbPosition) => {
   // HTTP 요청을 처리하기 위한 커스텀 훅에서 sendRequest 함수 가져오기
   const authStatus = useContext(AuthContext);
 
-  const isMobile = useIsMobile();
+  const {isMobile, windowWidth} = useIsMobile();
 
   /**
     await createDevice(

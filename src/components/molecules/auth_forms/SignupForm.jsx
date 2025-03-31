@@ -3,6 +3,7 @@ import { useState, useContext, useEffect, useCallback, useRef } from "react";
 
 import { handleError } from "@/utils/errorHandler"; // 에러 처리 함수 import
 import { useHttpHook } from "@/hooks/useHttpHook";
+import useIsMobile from "@/hooks/useIsMobile";
 
 import ErrorModal from "@/components/molecules/ErrorModal";
 
@@ -243,8 +244,10 @@ const SignupForm = () => {
     };
   }, [emailTimer]);
 
+  const { isMobile, windowWidth } = useIsMobile();
+
   return (
-    <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-2">
       {isLoading && <LoadingSpinner />}
       <ErrorModal
         isOpen={isErrorModalOpen}

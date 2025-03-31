@@ -50,7 +50,6 @@ export default function Home() {
   }, []);
 
   const { isMobile, windowWidth } = useIsMobile();
-  console.log(Number(windowWidth / 2));
 
   return (
     <>

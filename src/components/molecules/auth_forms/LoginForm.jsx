@@ -84,7 +84,7 @@ const LoginForm = () => {
     setInputModalOpen(false);
   };
 
-  const {isMobile, windowWidth} = useIsMobile();
+  const { isMobile, windowWidth } = useIsMobile();
   const textStyle3xl = isMobile ? "text-sm" : "text-3xl";
   const textStyle2xl = isMobile ? "text-xs" : "text-2xl";
   const logStyle = `w-auto ${isMobile ? "h-6" : "h-12"}`;
