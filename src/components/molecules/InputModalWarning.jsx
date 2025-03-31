@@ -196,14 +196,12 @@ const InputModalWarning = ({
   inputTextType = "text",
   placeHolder = "",
   hintList = [],
-  setPasswordCheck = true,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   const [inputValue, setInputValue] = useState(""); // 입력 값을 저장할 상태 추가
-  const [passwordValue, setPasswordValue] = useState(""); // 비밀번호 입력 값 상태 추가
 
   if (!isOpen) return null;
 
@@ -213,14 +211,7 @@ const InputModalWarning = ({
 
     try {
       // onConfirm(true);
-      if (passwordValue) {
-        await onConfirm({
-          [inputTextType]: inputValue,
-          password: passwordValue,
-        });
-      } else {
-        await onConfirm(inputValue);
-      }
+      await onConfirm(inputValue);
       setClose();
     } catch (err) {
       handleError(err, setErrorMessage, setIsErrorModalOpen); // 공통 에러 처리 함수 호출
@@ -266,50 +257,13 @@ const InputModalWarning = ({
               placeHolder={placeHolder}
               hintList={hintList}
               onChange={(e) => {
-                setInputValue(e.target.value);
-                // console.log(`e.target.value : ${e.target.value}`)
+                setInputValue({userEmail : e.target.value});
+                console.log(`e.target.value : ${e.target.value}`)
               }} // 입력 값 상태 업데이트
               updateInputValue
             />
-            {setPasswordCheck && (
-              <SelectInputType
-                className="w-full px-3 py-2 leading-tight text-black border rounded appearance-none focus:outline-none focus:shadow-outline"
-                type="password"
-                placeHolder="최근 비밀번호"
-                onChange={(e) => {
-                  setPasswordValue(e.target.value);
-                  // console.log(`e.target.value : ${e.target.value}`);
-                }} // 비밀번호 값 상태 업데이트
-              />
-            )}
-            {/* <SelectInputType
-              className="w-full px-3 py-2 leading-tight text-gray-500 border rounded appearance-none focus:outline-none focus:shadow-outline"
-              type="email"
-              placeHolder="example@naver.com"
-            />
-            <SelectInputType
-              className="w-full px-3 py-2 leading-tight text-gray-500 border rounded appearance-none focus:outline-none focus:shadow-outline"
-              type="date"
-            />
-            <SelectInputType
-              className="w-full px-3 py-2 leading-tight text-gray-500 border rounded appearance-none focus:outline-none focus:shadow-outline"
-              type="password"
-              placeHolder="6글자이상"
-            />
-            <SelectInputType
-              className="w-full px-3 py-2 leading-tight text-gray-500 border rounded appearance-none focus:outline-none focus:shadow-outline"
-              type="number"
-            />
-            <SelectInputType
-              className="w-full px-3 py-2 leading-tight text-gray-500 border rounded appearance-none focus:outline-none focus:shadow-outline"
-              type="hinList"
-              placeHolder="ex) 안방, 거실, 아기방 ... "
-              hintList={["안방", "거실", "아기방"]}
-            /> */}
           </div>
 
-          {/* 모달 컨테이너 */}
-          {/* <div className="flex flex-row justify-end gap-2"> */}
           <div className="grid grid-cols-2 gap-2 px-1 py-2">
             <button
               type="submit"
@@ -341,7 +295,6 @@ InputModalWarning.propTypes = {
   inputTextType: PropTypes.string,
   placeHolder: PropTypes.string,
   hintList: PropTypes.array,
-  setPasswordCheck: PropTypes.bool,
 };
 
 export default InputModalWarning;

@@ -35,7 +35,7 @@ export default function Home() {
 
   const handleInputConfirm = async (inputValue) => {
     console.log("Input 입력값 : ", inputValue);
-    await deleteUser(inputValue.userEmail, inputValue.password)
+    await deleteUser(inputValue.userEmail)
     setInputModalOpen(false);
   };
 
@@ -63,14 +63,14 @@ export default function Home() {
   }, [fetchData]);
 
   const deleteUser = useCallback(
-    async (userEmail, password) => {
+    async (userEmail) => {
       setIsLoading(true);
       try {
         const responseData = await sendRequest({
           url: `/api/user/deleteUser`,
           method: "DELETE",
           headers: { Authorization: `Bearer ${authStatus.token}` },
-          data: { userEmail, password },
+          data: { userEmail },
         });
         setUserInfo(responseData.userInfo);
         await authStatus.logout();
@@ -106,7 +106,6 @@ export default function Home() {
         content="회원 메일과 비밀번호를 입력해 주세요"
         inputTextType="userEmail"
         placeHolder="help@cocabot.com"
-        setPasswordCheck={true}
       />
       <div className="w-full pl-6 pr-6">
         <div className="flex flex-row pt-32">
