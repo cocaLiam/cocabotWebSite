@@ -1781,6 +1781,11 @@ input:checked + .toggle-bg {
   border-color: rgb(209 213 219 / var(--tw-border-opacity, 1));
 }
 
+.border-gray-500 {
+  --tw-border-opacity: 1;
+  border-color: rgb(107 114 128 / var(--tw-border-opacity, 1));
+}
+
 .border-gray-700 {
   --tw-border-opacity: 1;
   border-color: rgb(55 65 81 / var(--tw-border-opacity, 1));
@@ -1802,11 +1807,6 @@ input:checked + .toggle-bg {
 .border-white {
   --tw-border-opacity: 1;
   border-color: rgb(255 255 255 / var(--tw-border-opacity, 1));
-}
-
-.border-gray-500 {
-  --tw-border-opacity: 1;
-  border-color: rgb(107 114 128 / var(--tw-border-opacity, 1));
 }
 
 .\!bg-gray-50 {
@@ -1912,6 +1912,11 @@ input:checked + .toggle-bg {
   background-color: rgb(253 232 232 / var(--tw-bg-opacity, 1));
 }
 
+.bg-red-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(240 82 82 / var(--tw-bg-opacity, 1));
+}
+
 .bg-red-600 {
   --tw-bg-opacity: 1;
   background-color: rgb(224 36 36 / var(--tw-bg-opacity, 1));
@@ -1928,11 +1933,6 @@ input:checked + .toggle-bg {
 
 .bg-white\/50 {
   background-color: rgb(255 255 255 / 0.5);
-}
-
-.bg-red-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(240 82 82 / var(--tw-bg-opacity, 1));
 }
 
 .bg-opacity-30 {
@@ -2300,6 +2300,11 @@ input:checked + .toggle-bg {
   color: rgb(224 36 36 / var(--tw-text-opacity, 1));
 }
 
+.text-red-700 {
+  --tw-text-opacity: 1;
+  color: rgb(200 30 30 / var(--tw-text-opacity, 1));
+}
+
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
@@ -2313,11 +2318,6 @@ input:checked + .toggle-bg {
 .text-yellow-400 {
   --tw-text-opacity: 1;
   color: rgb(227 160 8 / var(--tw-text-opacity, 1));
-}
-
-.text-red-700 {
-  --tw-text-opacity: 1;
-  color: rgb(200 30 30 / var(--tw-text-opacity, 1));
 }
 
 .underline {
@@ -2572,6 +2572,11 @@ button:focus-visible {
   background-color: rgb(255 138 76 / var(--tw-bg-opacity, 1));
 }
 
+.hover\:bg-red-600:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(224 36 36 / var(--tw-bg-opacity, 1));
+}
+
 .hover\:bg-red-700:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(200 30 30 / var(--tw-bg-opacity, 1));
@@ -2590,16 +2595,6 @@ button:focus-visible {
 .hover\:bg-zinc-100:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(244 244 245 / var(--tw-bg-opacity, 1));
-}
-
-.hover\:bg-red-500:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(240 82 82 / var(--tw-bg-opacity, 1));
-}
-
-.hover\:bg-red-600:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(224 36 36 / var(--tw-bg-opacity, 1));
 }
 
 .hover\:text-blue-600:hover {
