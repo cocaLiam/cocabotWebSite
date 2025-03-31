@@ -23,7 +23,7 @@ import { useHttpHook } from "@/hooks/useHttpHook"; // HTTP 요청을 처리하�
 
 import { handleError } from "@/utils/errorHandler";
 
-export default function Home() {
+export default function CustomerService() {
   const [isLoading, setIsLoading] = useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");

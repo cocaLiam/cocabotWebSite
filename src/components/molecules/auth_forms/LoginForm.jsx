@@ -1,5 +1,5 @@
 // @/components/molecules/auth_forms/LoginForm.jsx
-import { useState, useContext, useCallback,useEffect } from "react";
+import { useState, useContext, useCallback, useEffect } from "react";
 
 import ErrorModal from "@/components/molecules/ErrorModal";
 import InputModal from "@/components/molecules/InputModal";
@@ -13,6 +13,7 @@ import { SiNaver } from "react-icons/si"; // Naver 아이콘
 import { RiKakaoTalkFill } from "react-icons/ri"; // Kakao 아이콘
 
 import { useHttpHook } from "@/hooks/useHttpHook";
+import useIsMobile from "@/hooks/useIsMobile";
 
 import { handleError } from "@/utils/errorHandler"; // 에러 처리 함수 import
 
@@ -83,6 +84,11 @@ const LoginForm = () => {
     setInputModalOpen(false);
   };
 
+  const {isMobile, windowWidth} = useIsMobile();
+  const textStyle3xl = isMobile ? "text-sm" : "text-3xl";
+  const textStyle2xl = isMobile ? "text-xs" : "text-2xl";
+  const logStyle = `w-auto ${isMobile ? "h-6" : "h-12"}`;
+
   return (
     <>
       {isLoading && <LoadingSpinner />}
@@ -113,7 +119,8 @@ const LoginForm = () => {
       <form onSubmit={handleSubmit} className="w-full space-y-2">
         <div>
           <input
-            className="w-full p-4 text-3xl text-white bg-gray-800 rounded"
+            // className="w-full p-4 text-3xl text-white bg-gray-800 rounded"
+            className={`w-full p-4 ${textStyle3xl} text-white bg-gray-800 rounded`}
             name="userEmail"
             type="email"
             value={formData.userEmail}
@@ -124,7 +131,8 @@ const LoginForm = () => {
         </div>
         <div>
           <input
-            className="w-full p-4 text-3xl text-white bg-gray-800 rounded"
+            // className="w-full p-4 text-3xl text-white bg-gray-800 rounded"
+            className={`w-full p-4 ${textStyle3xl} text-white bg-gray-800 rounded`}
             type="password"
             name="password"
             value={formData.password}
@@ -136,7 +144,8 @@ const LoginForm = () => {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full p-4 text-2xl text-white bg-blue-600 rounded hover:bg-blue-500 disabled:bg-blue-300"
+          // className="w-full p-4 text-2xl text-white bg-blue-600 rounded hover:bg-blue-500 disabled:bg-blue-300"
+          className={`w-full p-4 ${textStyle2xl} text-white bg-blue-600 rounded hover:bg-blue-500 disabled:bg-blue-300`}
         >
           로그인
         </button>
@@ -144,15 +153,16 @@ const LoginForm = () => {
         {/* <div className="flex justify-between"> */}
         <div className="flex flex-row">
           <FcGoogle
-            className="w-20 h-20 cursor-pointer"
+            // className="w-20 h-20 cursor-pointer"
+            className={`${logStyle} cursor-pointer`}
             onClick={() => setGoogleModal(true)}
           />
           <SiNaver
-            className="w-20 h-20 text-green-500 cursor-pointer"
+            className={`${logStyle} text-green-500 cursor-pointer`}
             onClick={() => setNaverModal(true)}
           />
           <RiKakaoTalkFill
-            className="w-20 h-20 text-yellow-400 cursor-pointer"
+            className={`${logStyle} text-yellow-400 cursor-pointer"`}
             onClick={() => setKakaoModal(true)}
           />
         </div>
@@ -175,7 +185,7 @@ const LoginForm = () => {
               }}
             >
               Password
-            </span>{" "}
+            </span>
             초기화
           </span>
         </div>

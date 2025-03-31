@@ -1,4 +1,4 @@
-// src/pages/MyPage.jsx
+// src/pages/Home.jsx
 // import {
 //   useEffect,
 //   useState,
@@ -12,6 +12,7 @@ import {
   useContext,
   useCallback,
 } from "react";
+import PropTypes from 'prop-types';
 
 import LoadingSpinner from "@/components/atoms/LoadingSpinner";
 
@@ -72,7 +73,7 @@ export default function Home() {
         onClose={() => setIsErrorModalOpen(false)}
         content={errorMessage}
       />
-      <h1>MyPage</h1>
+      <h1>Home</h1>
     </>
   );
 }

@@ -101,7 +101,7 @@ const GoogleLoginModal = ({ onClose }) => {
         onClose={() => setIsErrorModalOpen(false)}
         content={errorMessage}
       />
-      <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="fixed inset-0 flex items-center justify-center">
         {/* 배경 오버레이 */}
         <div className="fixed inset-0 bg-black opacity-50" onClick={onClose} />
 
