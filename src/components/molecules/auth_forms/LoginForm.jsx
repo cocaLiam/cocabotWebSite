@@ -87,7 +87,7 @@ const LoginForm = () => {
   const { isMobile, windowWidth } = useIsMobile();
   const textStyle3xl = isMobile ? "text-sm" : "text-3xl";
   const textStyle2xl = isMobile ? "text-xs" : "text-2xl";
-  const logStyle = `w-auto ${isMobile ? "h-6" : "h-12"}`;
+  const logoStyle = `w-auto ${isMobile ? "h-6" : "h-12"}`;
 
   return (
     <>
@@ -154,15 +154,15 @@ const LoginForm = () => {
         <div className="flex flex-row">
           <FcGoogle
             // className="w-20 h-20 cursor-pointer"
-            className={`${logStyle} cursor-pointer`}
+            className={`${logoStyle} cursor-pointer`}
             onClick={() => setGoogleModal(true)}
           />
           <SiNaver
-            className={`${logStyle} text-green-500 cursor-pointer`}
+            className={`${logoStyle} text-green-500 cursor-pointer`}
             onClick={() => setNaverModal(true)}
           />
           <RiKakaoTalkFill
-            className={`${logStyle} text-yellow-400 cursor-pointer"`}
+            className={`${logoStyle} text-yellow-400 cursor-pointer"`}
             onClick={() => setKakaoModal(true)}
           />
         </div>

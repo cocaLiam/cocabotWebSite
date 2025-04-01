@@ -17,6 +17,8 @@ import ErrorModal from "@/components/molecules/ErrorModal";
 import { AuthContext } from "@/context/AuthContext";
 
 import { useHttpHook } from "@/hooks/useHttpHook"; // HTTP 요청을 처리하는 커스텀 훅
+import useIsMobile from "@/hooks/useIsMobile";
+import useParentSize from "@/hooks/useParentSize";
 
 import { handleError } from "@/utils/errorHandler";
 
@@ -134,6 +136,12 @@ export default function UserInfoEdit({ userInfo, fetchData }) {
     [authStatus.token, sendRequest]
   );
 
+  const { isMobile, windowWidth } = useIsMobile();
+  const { targetRef, parentSize } = useParentSize();
+  const textStyle3xl = isMobile ? "text-sm" : "text-3xl";
+  const textStyle2xl = isMobile ? "text-xs" : "text-2xl";
+  const logoStyle = `w-auto ${isMobile ? "h-6" : "h-12"}`;
+
   const formField = ({
     /* 입력 필드 */
     label = "label",
@@ -146,14 +154,26 @@ export default function UserInfoEdit({ userInfo, fetchData }) {
     disabled = false,
   }) => {
     return (
-      <div className="flex flex-row w-full border border-gray-800">
-        <div className="flex items-center justify-center text-3xl bg-gray-700 min-w-60">
+      <div
+        // className="flex flex-row w-full h-full border border-gray-800"
+        className="flex flex-row w-full h-full border border-white"
+        ref={targetRef}
+      >
+        <div
+          className={`flex items-center justify-center ${textStyle3xl} bg-gray-700`}
+          style={{ width: `${parentSize.width / 3}px` }}
+        >
           {label}
         </div>
-        <div className="flex w-full pt-3 pb-3 text-3xl bg-inherit">
+        <div className={`flex w-full pt-3 pb-3 ${textStyle3xl} bg-inherit`}>
           <div className="flex flex-col">
             <input
-              className="ml-4 text-white appearance-none w-80 bg-inherit border-inherit"
+              className="ml-4 text-white appearance-none bg-inherit border-inherit"
+              style={
+                isMobile
+                  ? { width: `${(parentSize.width / 3) * 2}px` }
+                  : { width: `${parentSize.width / 3}px` }
+              }
               type={type}
               pattern={pattern}
               placeholder={placeholder}
@@ -164,15 +184,21 @@ export default function UserInfoEdit({ userInfo, fetchData }) {
             />
             {label == "비밀번호 확인"
               ? checkPassword || (
-                  <p className="flex items-center ml-4 text-base text-red-700">
+                  <p
+                    className={`flex items-center ml-4 ${textStyle2xl} text-red-700`}
+                  >
                     비밀번호가 다릅니다.
                   </p>
                 )
               : null}
           </div>
-          <span className="flex items-center ml-2 text-base text-gray-500">
-            {description}
-          </span>
+          {isMobile ? null : (
+            <span
+              className={`flex items-center ml-2 ${textStyle2xl} text-gray-500`}
+            >
+              {description}
+            </span>
+          )}
         </div>
       </div>
     );
@@ -208,7 +234,8 @@ export default function UserInfoEdit({ userInfo, fetchData }) {
                 type: "password",
                 // pattern: "^(?=.*[A-Za-z])(?=.*d)[A-Za-zd]{6,20}$",
                 // pattern: "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d!@#$%^&*()]{6,20}$",
-                pattern: "^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9!@#$%^&*()]{6,20}$",
+                pattern:
+                  "^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9!@#$%^&*()]{6,20}$",
                 description: "(영문자/숫자, 6~20자) 특수문자 가능",
                 placeholder: "",
                 value: "",
@@ -230,7 +257,8 @@ export default function UserInfoEdit({ userInfo, fetchData }) {
                 type: "password",
                 // pattern: "^(?=.*[A-Za-z])(?=.*d)[A-Za-zd]{6,20}$",
                 // pattern: "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d!@#$%^&*()]{6,20}$",
-                pattern: "^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9!@#$%^&*()]{6,20}$",
+                pattern:
+                  "^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9!@#$%^&*()]{6,20}$",
                 placeholder: "",
                 value: "",
                 description: "(영문자/숫자, 6~20자) 특수문자 가능",
@@ -289,12 +317,8 @@ export default function UserInfoEdit({ userInfo, fetchData }) {
           {/* <input type="submit" value="전송" onClick={() => {console.log(11111111111)}}/> */}
           <div className="flex flex-row items-center justify-center pt-8 space-x-2">
             <button
-              className="text-3xl text-white bg-gray-800 min-w-60 hover:bg-gray-500"
-              // onClick={() => {
-              //   console.log("회원정보 수정");
-              //   console.log(formData);
-              //   updateData(formData);
-              // }}
+              // className="text-3xl text-white bg-gray-800 min-w-60 hover:bg-gray-500"
+              className={`text-white bg-gray-800 min-w-60 hover:bg-gray-500 ${textStyle3xl}`}
             >
               회원정보 수정
             </button>

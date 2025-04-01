@@ -18,6 +18,7 @@ import ErrorModal from "@/components/molecules/ErrorModal";
 import { AuthContext } from "@/context/AuthContext";
 
 import { useHttpHook } from "@/hooks/useHttpHook"; // HTTP 요청을 처리하는 커스텀 훅
+import useIsMobile from "@/hooks/useIsMobile";
 
 import { handleError } from "@/utils/errorHandler";
 
@@ -35,7 +36,7 @@ export default function Home() {
 
   const handleInputConfirm = async (inputValue) => {
     console.log("Input 입력값 : ", inputValue);
-    await deleteUser(inputValue.userEmail)
+    await deleteUser(inputValue.userEmail);
     setInputModalOpen(false);
   };
 
@@ -90,6 +91,9 @@ export default function Home() {
     tt();
   }, [fetchData]);
 
+  const { isMobile, windowWidth } = useIsMobile();
+  const h1Style3xl = isMobile ? "text-3xl" : "text-5xl";
+
   return (
     <>
       {isLoading && <LoadingSpinner />}
@@ -107,9 +111,19 @@ export default function Home() {
         inputTextType="userEmail"
         placeHolder="help@cocabot.com"
       />
-      <div className="w-full pl-6 pr-6">
+      {/* <div className="w-full pl-6 pr-6"> */}
+      <div
+        className={`pl-6 pr-6`}
+        style={{ width: `${windowWidth}px` }}
+        // style={
+        //   isMobile
+        //     ? { width: `${windowWidth}px` }
+        //     : { width: `${windowWidth}px` }
+        // }
+      >
         <div className="flex flex-row pt-32">
-          <h1>회원 정보</h1>
+          {/* <h1>회원 정보</h1> */}
+          <h1 className={h1Style3xl}>회원 정보</h1>
         </div>
         <div className="pt-8">
           {/* {userInfo && (console.log(userInfo))} */}
@@ -118,7 +132,7 @@ export default function Home() {
           )}
         </div>
         <div className="flex flex-row pt-32">
-          <h1>회원 탈퇴</h1>
+        <h1 className={h1Style3xl}>회원 탈퇴</h1>
         </div>
         {/* <div className="flex flex-row items-center justify-center pt-8"> */}
         <div className="flex flex-row pt-8">
@@ -140,11 +154,11 @@ export default function Home() {
           </div>
         </div>
         <div className="flex flex-row pt-32">
-          <h1>제목 3</h1>
+          {/* <h1>제목 3</h1> */}
         </div>
-        <div className="flex flex-row pt-8">
+        {/* <div className="flex flex-row pt-8">
           <h1>내용 3</h1>
-        </div>
+        </div> */}
       </div>
     </>
   );
