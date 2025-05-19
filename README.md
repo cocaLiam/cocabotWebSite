@@ -8,6 +8,8 @@
 #### 
 # FrontEnd 구성 overview
 #### 
+- 프레임 워크는 기본적으로 MERN스택을 따름
+  - 프론트엔드(React) + 백엔드(Node.js/Express) + 데이터베이스(MongoDB)
 - vite 모듈번들러 - react - tailWind CSS
 - 컴포넌트 기반 아키텍처
 - mongoose (mongoDB), (cloud Server DB : Atlas)

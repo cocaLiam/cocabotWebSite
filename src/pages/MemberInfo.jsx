@@ -121,7 +121,7 @@ export default function Home() {
         //     : { width: `${windowWidth}px` }
         // }
       >
-        <div className="flex flex-row pt-32">
+        <div className="flex flex-row pt-8">
           {/* <h1>회원 정보</h1> */}
           <h1 className={h1Style3xl}>회원 정보</h1>
         </div>
